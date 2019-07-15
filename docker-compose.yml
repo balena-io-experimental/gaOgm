@@ -9,6 +9,8 @@ services:
     privileged: true
     volumes:
       - 'google_assistant_credentials_data:/root/.config/google-oauthlib-tool'
+    labels:
+      io.balena.features.kernel-modules: '1'
   pi-join-meet:
     build: ./pi-join-meet
     restart: always
