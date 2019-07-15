@@ -25,5 +25,7 @@ ADD .asoundrc /root/.asoundrc
 ADD create_credentials.sh /create_credentials.sh
 RUN chmod a+x /create_credentials.sh
 
+RUN echo 'snd-aloop' >> /etc/modules
+
 # Start app
 CMD ["bash", "/start.sh"]

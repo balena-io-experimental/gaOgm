@@ -4,8 +4,9 @@ pcm.!default {
 
         playback.pcm {
                 type hw
-                card 0
-                device 0
+                card 1
+                device 1
+                subdevice 1
         }
 
         capture.pcm {
@@ -15,6 +16,7 @@ pcm.!default {
                                 type hw
                                 card 1
                                 device 0
+                                subdevice 0
                         }
                 }
         }
