@@ -14,7 +14,6 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 RUN JOBS=MAX npm install --production --unsafe-perm && npm cache verify && rm -rf /tmp/*
 
 COPY . ./
-COPY .asoundrc /root/.asoundrc
 
 ENV UDEV=1
 

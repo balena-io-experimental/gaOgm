@@ -1,13 +1,15 @@
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-python:3.5.7-stretch-build-20190529
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
+  pulseaudio \
   portaudio19-dev \
   libffi-dev \
   libssl-dev \
   libmpg123-dev \
-  alsa-utils \
   && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN adduser root pulse-access
 
 RUN python3 -m venv /env
 RUN /env/bin/python -m pip install --upgrade pip setuptools wheel
@@ -20,12 +22,9 @@ RUN . /env/bin/activate && \
 # ENV INITSYSTEM on
 
 ADD start.sh /start.sh
-ADD .asoundrc /root/.asoundrc
 
 ADD create_credentials.sh /create_credentials.sh
 RUN chmod a+x /create_credentials.sh
-
-RUN echo 'snd-aloop' >> /etc/modules
 
 # Start app
 CMD ["bash", "/start.sh"]
