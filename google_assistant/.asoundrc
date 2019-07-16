@@ -10,14 +10,9 @@ pcm.!default {
         }
 
         capture.pcm {
-                type plug
-                slave {
-                        pcm {
-                                type hw
-                                card 1
-                                device 0
-                                subdevice 1
-                        }
-                }
+                type hw
+                card 1
+                device 0
+                subdevice 1
         }
 }
