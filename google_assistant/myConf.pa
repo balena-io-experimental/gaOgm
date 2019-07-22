@@ -1,0 +1,3 @@
+load-module module-native-protocol-unix socket=/tmp/myPulse/pulseaudio.socket
+load-module module-null-sink sink_name=GAssistant
+load-module module-null-sink sink_name=GMeet
