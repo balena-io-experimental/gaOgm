@@ -6,8 +6,8 @@ var express = require('express');
 var app = express();
 var dir = path.join(__dirname, 'public');
 app.use(express.static(dir));
-app.listen(3000, () => {
-	console.log('Listening on http://localhost:3000/');
+app.listen(8080, () => {
+	console.log('Listening on http://localhost:8080/');
 });
 
 async function getExecutablePath() {
@@ -45,9 +45,12 @@ async function clickByText (page, text) {
 		const config = await getConfig();
 		const browser = await puppeteer.launch(config);
 		const page = await browser.newPage();
-		const URL = 'https://meet.google.com/rfn-pdbt-wvj';
-		await page.goto(URL, {waitUntil: 'networkidle2'});
+		//const URL = 'https://meet.google.com/rfn-pdbt-wvj';
+		const URL = 'http://in.gr';
+		//await page.goto(URL, {waitUntil: 'networkidle2'});
+		await page.goto(URL);
 		console.log(`Joined: ${URL}`);
+/*
 		await clickByText(page, 'Your name');
 		await page.keyboard.type(`tob-${Math.random().toString(36).substring(11)}`);
 		await page.waitFor(500);
@@ -59,6 +62,7 @@ async function clickByText (page, text) {
 			await page.screenshot({ path: "./public/test.png" });
 			await page.waitFor(10000);
 		}
+*/
 	} catch (err) {
 		console.error(err);
 	}

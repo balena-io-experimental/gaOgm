@@ -1,5 +1,8 @@
 #!/bin/bash
 
+pulseaudio --system -D -n
+#pactl load-module module-native-protocol-unix socket=/tmp/myPulse/pulseaudio.socket
+
 CREDENTIALS_FILE_PATH=/root/.config/google-oauthlib-tool
 CREDENTIALS_FILE="$CREDENTIALS_FILE_PATH"/credentials.json
 

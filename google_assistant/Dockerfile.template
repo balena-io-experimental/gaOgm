@@ -9,6 +9,16 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
   && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN addgroup --system pulse
+RUN adduser --system --ingroup pulse --home /var/run/pulse pulse
+RUN addgroup --system pulse-access
+
+# Some distributions restrict access to the sound devices to a group audio
+RUN adduser pulse audio
+RUN adduser root audio
+RUN adduser root pulse
+
+# Add a user to the pulse-access group
 RUN adduser root pulse-access
 
 RUN python3 -m venv /env
@@ -17,9 +27,6 @@ RUN . /env/bin/activate && \
     python -m pip install --upgrade google-assistant-library==1.0.1 
 RUN . /env/bin/activate && \
     python -m pip install --upgrade google-assistant-sdk[samples]==0.5.1
-
-# Enable init system
-# ENV INITSYSTEM on
 
 ADD start.sh /start.sh
 

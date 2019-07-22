@@ -17,4 +17,4 @@ COPY . ./
 
 ENV UDEV=1
 
-CMD ["npm", "start"]
+CMD ["/bin/bash", "start.sh"]
