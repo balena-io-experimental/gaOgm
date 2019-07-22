@@ -1,11 +1,14 @@
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-python:3.5.7-stretch-build-20190529
 
+ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+
 RUN apt-get update && apt-get install -yq --no-install-recommends \
   pulseaudio \
   portaudio19-dev \
   libffi-dev \
   libssl-dev \
   libmpg123-dev \
+  dbus \
   && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -19,7 +22,7 @@ RUN adduser root audio
 RUN adduser root pulse
 
 # Add a user to the pulse-access group
-#RUN adduser root pulse-access
+RUN adduser root pulse-access
 
 #RUN python3 -m venv /env
 #RUN /env/bin/python -m pip install --upgrade pip setuptools wheel

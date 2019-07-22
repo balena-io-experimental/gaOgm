@@ -15,6 +15,7 @@ services:
       - 'myPulse:/tmp/myPulse'
     labels:
       io.balena.features.kernel-modules: '1'
+      io.balena.features.dbus: '1'
 
   pi-join-meet:
     build: ./pi-join-meet

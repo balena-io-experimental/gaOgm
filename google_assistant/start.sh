@@ -1,7 +1,18 @@
 #!/bin/bash
 
-pulseaudio --system -D -n
+export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+#pulseaudio --system -D -n
 #pactl load-module module-native-protocol-unix socket=/tmp/myPulse/pulseaudio.socket
+
+dbus-send \
+  --system \
+  --print-reply \
+  --reply-timeout=2000 \
+  --type=method_call \
+  --dest=org.freedesktop.timedate1 \
+  /org/freedesktop/timedate1  \
+  org.freedesktop.DBus.Properties.GetAll \
+  string:"org.freedesktop.timedate1"
 
 sleep 3600
 
