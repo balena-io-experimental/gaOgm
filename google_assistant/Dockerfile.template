@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 #RUN adduser root pulse
 
 # Add a user to the pulse-access group
-#RUN adduser root pulse-access
+RUN adduser root pulse-access
 
 #RUN python3 -m venv /env
 #RUN /env/bin/python -m pip install --upgrade pip setuptools wheel
