@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
-#pulseaudio --system -D
-#pactl load-module module-native-protocol-unix socket=/tmp/myPulse/pulseaudio.socket
+pulseaudio -n --system -F ./myConf.pa &
+export PULSE_SINK="GAssistant" 
+export PULSE_SOURCE="GMeet.monitor" 
 
 sleep 3600
 
