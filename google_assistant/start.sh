@@ -4,8 +4,6 @@ pulseaudio -n --system -F ./myConf.pa &
 export PULSE_SINK="GAssistant" 
 export PULSE_SOURCE="GMeet.monitor" 
 
-sleep 3600
-
 CREDENTIALS_FILE_PATH=/root/.config/google-oauthlib-tool
 CREDENTIALS_FILE="$CREDENTIALS_FILE_PATH"/credentials.json
 
