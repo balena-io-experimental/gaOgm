@@ -17,4 +17,8 @@ COPY . ./
 
 ENV UDEV=1
 
+ENV PULSE_SERVER=127.0.0.1
+ENV PULSE_SINK="GMeetOUT" 
+ENV PULSE_SOURCE="GMeetIN.monitor" 
+
 CMD ["/bin/bash", "start.sh"]
