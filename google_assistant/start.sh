@@ -1,8 +1,8 @@
 #!/bin/bash
 
 pulseaudio -n --system -F ./myConf.pa &
-export PULSE_SINK="GAssistantOUT" 
-export PULSE_SOURCE="GAssistantIN.monitor" 
+export PULSE_SINK="GAssistant" 
+export PULSE_SOURCE="GMeet.monitor" 
 
 
 CREDENTIALS_FILE_PATH=/root/.config/google-oauthlib-tool
