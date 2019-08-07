@@ -29,5 +29,9 @@ WORKDIR /usr/src/app
 COPY . .
 RUN chmod a+x ./create_credentials.sh
 
+ENV PULSE_SERVER=127.0.0.1
+ENV PULSE_SINK="GAssistant" 
+ENV PULSE_SOURCE="GMeet.monitor" 
+
 # Start app
 CMD ["bash", "./start.sh"]
