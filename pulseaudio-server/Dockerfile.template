@@ -1,0 +1,24 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:stretch
+
+ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+  pulseaudio \
+  portaudio19-dev \
+  libffi-dev \
+  libssl-dev \
+  libmpg123-dev \
+  dbus \
+  && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN adduser pulse audio
+RUN adduser root audio
+RUN adduser root pulse
+RUN adduser root pulse-access
+
+WORKDIR /usr/src/app
+COPY . .
+
+# Start app
+CMD ["bash", "./start.sh"]
