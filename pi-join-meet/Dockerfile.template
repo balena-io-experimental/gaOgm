@@ -17,8 +17,4 @@ COPY . ./
 
 ENV UDEV=1
 
-ENV PULSE_SERVER=127.0.0.1
-ENV PULSE_SINK="GMeet" 
-ENV PULSE_SOURCE="GAssistant.monitor" 
-
 CMD ["/bin/bash", "start.sh"]

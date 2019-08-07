@@ -2,11 +2,6 @@
 
 pulseaudio -n --system -F ./myConf.pa &
 
-export PULSE_SERVER=127.0.0.1
-export PULSE_SINK="GAssistant" 
-export PULSE_SOURCE="GMeet.monitor" 
-
-
 CREDENTIALS_FILE_PATH=/root/.config/google-oauthlib-tool
 CREDENTIALS_FILE="$CREDENTIALS_FILE_PATH"/credentials.json
 
