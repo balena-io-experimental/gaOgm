@@ -7,11 +7,6 @@ RUN apt-get update && apt-get upgrade && apt-get install -yq \
     espeak \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN adduser pulse audio
-RUN adduser root audio
-RUN adduser root pulse
-RUN adduser root pulse-access
-
 WORKDIR /usr/src/app
 
 COPY package.json package.json
