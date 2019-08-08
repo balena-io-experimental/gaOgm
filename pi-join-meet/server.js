@@ -59,7 +59,7 @@ async function clickByText (page, text) {
 
 		while (true) {
 			await page.screenshot({ path: "./public/test.png" });
-			await page.waitFor(10000);
+			await page.waitFor(2000);
 		}
 	} catch (err) {
 		console.error(err);
