@@ -1,8 +1,9 @@
 load-module module-native-protocol-unix
 load-module module-native-protocol-tcp auth-anonymous=1
-load-module module-null-sink sink_name=GAssistant
-load-module module-null-sink sink_name=GMeet
-load-module module-null-sink sink_name=tmp
-load-module module-loopback source="GAssistant.monitor" sink="tmp" latency_msec=1000
-#load-module module-sine-source
-#load-module module-loopback source="sine_input" sink="GAssistant"
+load-module module-null-sink sink_name=GAssistantOUT
+load-module module-null-sink sink_name=GAssistantIN
+load-module module-null-sink sink_name=GMeetOUT
+load-module module-null-sink sink_name=GMeetIN
+load-module module-sine-source
+load-module module-loopback source="GMeetOUT.monitor" sink="GAssistantIN"
+load-module module-loopback source="GAssistantOUT.monitor" sink="GMeetIN"
