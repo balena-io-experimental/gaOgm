@@ -48,7 +48,6 @@ async function clickByText (page, text) {
 		const page = await browser.newPage();
 		const URL = 'https://meet.google.com/znq-kvjd-bqt';
 		await page.goto(URL, {waitUntil: 'networkidle2'});
-		await page.goto(URL);
 		console.log(`Joined: ${URL}`);
 		await clickByText(page, 'Your name');
 		await page.keyboard.type(`tob-${Math.random().toString(36).substring(11)}`);
