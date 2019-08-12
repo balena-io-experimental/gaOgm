@@ -48,6 +48,12 @@ async function clickByText (page, text) {
 		const page = await browser.newPage();
 		const URL = 'https://meet.google.com/znq-kvjd-bqt';
 		await page.goto(URL, {waitUntil: 'networkidle2'});
+
+		await page.waitFor(5000);
+		const micPath = "//html[1]/body[1]/div[1]/div[3]/div/div[2]/span/div/div/div[2]/span[1]/div/div[1]/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div[1]/div[1]/span";
+		const defMic = await page.$x(micPath);
+		console.log(defMic);
+
 		console.log(`Joined: ${URL}`);
 		await clickByText(page, 'Your name');
 		await page.keyboard.type(`tob-${Math.random().toString(36).substring(11)}`);
