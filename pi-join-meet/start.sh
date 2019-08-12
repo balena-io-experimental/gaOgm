@@ -1,3 +1,4 @@
 #!/bin/bash
 
-npm start
+#npm start
+sleep 3600
