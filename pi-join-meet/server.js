@@ -23,7 +23,8 @@ async function getConfig() {
 			'--no-sandbox',
 			'--use-fake-ui-for-media-stream',
 			'--incognito',
-		]
+		], 
+		ignoreDefaultArgs: ['--mute-audio'],
 	}
 }
 
