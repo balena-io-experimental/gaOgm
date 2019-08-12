@@ -56,6 +56,11 @@ async function clickByText (page, text) {
 		await page.waitFor(500);
 		await page.keyboard.type(String.fromCharCode(13));
 
+		await page.evaluate(async () => {
+			const devices = await navigator.mediaDevices.enumerateDevices();
+			devices.forEach(device => console.log(device.kind + ": " + device.label + " id = " + device.deviceId));
+		})
+
 		while (true) {
 			await page.screenshot({ path: "./public/test.png" });
 			await page.waitFor(2000);
