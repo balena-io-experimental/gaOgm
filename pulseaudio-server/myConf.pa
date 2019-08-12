@@ -4,8 +4,5 @@ load-module module-null-sink sink_name=GAssistantOUT
 load-module module-null-sink sink_name=GAssistantIN
 load-module module-null-sink sink_name=GMeetOUT
 load-module module-null-sink sink_name=GMeetIN
-load-module module-sine-source
 load-module module-loopback source="GMeetOUT.monitor" sink="GAssistantIN"
 load-module module-loopback source="GAssistantOUT.monitor" sink="GMeetIN"
-update-source-proplist GMeetIN.monitor device.class=sound
-update-source-proplist GAssistantIN.monitor device.class=sound
