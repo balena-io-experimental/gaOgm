@@ -31,7 +31,7 @@ async function clickByText (page, text) {
 		const config = await getConfig();
 		const browser = await puppeteer.launch(config);
 		const page = await browser.newPage();
-		const URL = 'https://meet.google.com/znq-kvjd-bqt';
+		const URL = process.env.MEET_URL || 'https://meet.google.com/znq-kvjd-bqt';
 		await page.goto(URL, {waitUntil: 'networkidle2'});
 		console.log(`Joined: ${URL}`);
 		await clickByText(page, 'Your name');
