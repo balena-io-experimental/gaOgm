@@ -1,0 +1,4 @@
+load-module module-native-protocol-unix socket=/pulseaudio/pulseaudio.socket
+load-module module-alsa-sink
+load-module module-null-sink sink_name=virtual-sink
+load-module module-loopback source="virtual-sink.monitor" sink="alsa_output.default"

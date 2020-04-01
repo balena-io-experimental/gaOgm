@@ -1,0 +1,11 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-node:10-stretch-run
+
+WORKDIR /usr/src
+
+COPY . .
+
+RUN install_packages python pkg-config make g++ libpulse-dev pulseaudio alsa-utils
+RUN npm install
+
+# PULSE_AUDIO=unix:/pulseaudio/pulseaudio.socket PULSE_SOURCE=virtual.monitor PULSE_SINK=alsa_output.default node server.js
+CMD while : ; do echo "${MESSAGE=Idling...}"; sleep ${INTERVAL=600}; done
