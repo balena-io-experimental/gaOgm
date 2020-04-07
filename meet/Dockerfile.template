@@ -7,5 +7,5 @@ COPY . .
 RUN install_packages python pkg-config make g++ libpulse-dev pulseaudio alsa-utils
 RUN npm install
 
-# PULSE_AUDIO=unix:/pulseaudio/pulseaudio.socket PULSE_SOURCE=virtual.monitor PULSE_SINK=alsa_output.default node server.js
+# PULSE_SERVER=unix:/pulseaudio/pulseaudio.socket PULSE_SINK=virtual-sink node server.js
 CMD while : ; do echo "${MESSAGE=Idling...}"; sleep ${INTERVAL=600}; done

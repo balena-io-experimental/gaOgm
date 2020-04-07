@@ -9,15 +9,15 @@ const PUBLIC_URL = `${process.env.BALENA_DEVICE_UUID}.balena-devices.com`
 
 // Get details from twilio account page
 const twilioConfig = {
-  accountSid: 'AC9130f4c023d3e327341d1bf13710ca32',
-  authToken: '8999fd12fafe7415e2cdbcd3b14646d2',
-  phoneNumber: '+1 206 350 4336'
+  accountSid: process.env.TWILIO_ACCOUNT_SID,
+  authToken: process.env.TWILIO_ACCOUNT_TOKEN,
+  phoneNumber: process.env.TWILIO_PHONE_NUMBER
 }
 
 // Get details from hubot created google meet
 const meet = {
-  pin: '7963458355321#',
-  phoneNumber: '+1 347-450-6962'
+  pin: process.env.MEET_PIN,
+  phoneNumber: process.env.MEET_PHONE_NUMBER
 }
 
 // Create web server
