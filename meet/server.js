@@ -28,7 +28,7 @@ const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 wss.on('connection', function connection (ws) {
   console.log('New Connection Initiated')
-  
+
   let play
   ws.on('message', function incoming (message) {
     const msg = JSON.parse(message)
@@ -64,13 +64,13 @@ wss.on('connection', function connection (ws) {
 
 //Handle HTTP Requests
 app.get('/', (req, res) => {
-  let pause = 60 * 60 * 4
+  const pause = 60 * 60 * 4
   res.set('Content-Type', 'text/xml')
   res.send(`<Response>
       <Start>
       <Stream url='wss://${PUBLIC_URL}' />
       </Start>
-      <Say>I will stream the next x seconds of audio through your websocket</Say>
+      <Say>I will stream the next ${pause} seconds of audio through your websocket</Say>
       <Pause length='${pause}' />
       <Say>I will close the stream now</Say>
   </Response>`)
@@ -86,7 +86,8 @@ app.post('/join', () => {
     to: meet.phoneNumber,
     from: twilioConfig.phoneNumber
   })
-  .then(call => console.log(`Call posted with SID: ${call.sid}`))
+    .then(call => res.json({ status: 'ok', call }))
+    .catch(e => res.json({ status: 'error', message: e.message }))
 })
 
 console.log(`Listening at Port 80. Public URL: ${PUBLIC_URL}`)
