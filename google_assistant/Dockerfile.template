@@ -1,21 +1,15 @@
-FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-python:3.5.7-stretch-build-20190529
+FROM balenalib/raspberrypi3-debian-python:3.5.7-stretch
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-  pulseaudio \
-  portaudio19-dev \
-  libffi-dev \
-  libssl-dev \
-  libmpg123-dev \
-  dbus \
-  && \
-  apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN adduser pulse audio
-RUN adduser root audio
-RUN adduser root pulse
-RUN adduser root pulse-access
+RUN install_packages \
+    pulseaudio \
+    alsa-utils \
+    portaudio19-dev \
+    libffi-dev \
+    libssl-dev \
+    libmpg123-dev \
+    gcc
 
 RUN python3 -m venv /env
 RUN /env/bin/python -m pip install --upgrade pip setuptools wheel
@@ -30,4 +24,5 @@ COPY . .
 RUN chmod a+x ./create_credentials.sh
 
 # Start app
-CMD ["bash", "./start.sh"]
+# CMD ["bash", "./start.sh"]
+CMD while : ; do echo "${MESSAGE=Idling...}"; sleep ${INTERVAL=600}; done

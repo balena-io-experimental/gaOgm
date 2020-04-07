@@ -9,4 +9,7 @@ echo "The credentials ="
 cat /root/.config/google-oauthlib-tool/credentials.json
 echo ""
 echo ""
-echo "You should now restart the google_assistant service !"
+echo "This script will now attempt to restart the google_assistant..."
+
+curl --header "Content-Type:application/json" "$BALENA_SUPERVISOR_ADDRESS/v2/applications/$BALENA_APP_ID/restart-service?apikey=$BALENA_SUPERVISOR_API_KEY" \
+     --data '{"serviceName": "google_assistant"}'
