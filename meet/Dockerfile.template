@@ -9,4 +9,4 @@ COPY . .
 RUN install_packages python pkg-config make g++ libpulse-dev pulseaudio alsa-utils
 RUN npm install
 
-CMD while : ; do echo "${MESSAGE=Idling...}"; sleep ${INTERVAL=600}; done
+CMD [ "/bin/bash", "start.sh" ]

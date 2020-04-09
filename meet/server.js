@@ -55,7 +55,6 @@ wss.on('connection', function connection (ws) {
         console.log(`Starting Media Stream ${msg.streamSid}`)
         break
       case 'media':
-        console.log(`Receiving Audio...`)
         play.write(Buffer.from(msg.media.payload, 'base64'))
         break
       case 'stop':
