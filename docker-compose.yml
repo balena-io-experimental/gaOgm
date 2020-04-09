@@ -1,7 +1,6 @@
 version: '2'
 
 volumes:
-  google_assistant_credentials:
   pulse:
     
 services:
@@ -13,7 +12,6 @@ services:
     labels:
       io.balena.features.supervisor-api: 1
     volumes:
-      - 'google_assistant_credentials:/root/.config/google-oauthlib-tool'
       - 'pulse:/pulseaudio'
 
   pulseaudio:

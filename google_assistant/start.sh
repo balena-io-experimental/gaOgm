@@ -3,40 +3,26 @@
 CREDENTIALS_FILE_PATH=/root/.config/google-oauthlib-tool
 CREDENTIALS_FILE="$CREDENTIALS_FILE_PATH"/credentials.json
 
-if [ "$GOOGLE_ASSISTANT_DEVICE_MODEL_ID" = '' ]; then
+if [[ -z $GOOGLE_ASSISTANT_DEVICE_MODEL_ID ]]; then
     echo "ERROR: The device service variable 'GOOGLE_ASSISTANT_DEVICE_MODEL_ID' is not set.  This variable must be set for the service 'google_assistant'"
+    echo "Get the value from Google's developer portal."
     exit 1
 fi
 
-if [ "$GOOGLE_ASSISTANT_PROJECT_ID" = '' ]; then
+if [[ -z $GOOGLE_ASSISTANT_PROJECT_ID ]]; then
     echo "ERROR: device service variable 'GOOGLE_ASSISTANT_PROJECT_ID' is not set.  This variable must be set for the service 'google_assistant'"
+    echo "Get the value from Google's developer portal."
     exit 1
 fi
 
-if [ "$GOOGLE_ASSISTANT_CREDENTIALS" != '' ]; then
-    echo "Creating or overwriting the $CREDENTIALS_FILE with contents of device service variable GOOGLE_ASSISTANT_CREDENTIALS ..."
-    mkdir -p $CREDENTIALS_FILE_PATH
-    echo $GOOGLE_ASSISTANT_CREDENTIALS > $CREDENTIALS_FILE
+if [[ -z $GOOGLE_ASSISTANT_CREDENTIALS ]]; then
+    echo "ERROR: device service variable 'GOOGLE_ASSISTANT_CREDENTIALS' is not set.  This variable must be set for the service 'google_assistant'"
+    echo "Run create_credentials.sh script on your development machine to generate it."
+    exit 1
 fi
 
-if [ -f "$CREDENTIALS_FILE"  ]; then
-    echo "Starting googlesamples-assistant-hotword ..."
-    source /env/bin/activate 
-    googlesamples-assistant-hotword --project-id $GOOGLE_ASSISTANT_PROJECT_ID --device-model-id $GOOGLE_ASSISTANT_DEVICE_MODEL_ID
-    echo "ERROR: googlesamples-assistant-hotword terminated unexpectedly."
-else
-    echo "The credentials ($CREDENTIALS_FILE) are not set !"
-    if [ "$GOOGLE_ASSISTANT_CLIENT_SECRET" != '' ]; then
-        echo "... Creating /client_secret.json based on the contents of device service variables GOOGLE_ASSISTANT_CLIENT_SECRET..."
-        echo $GOOGLE_ASSISTANT_CLIENT_SECRET >  /client_secret.json 
-        echo "**********************************************************************"
-        echo "* You can now create the google credentials by launching the script: *"
-        echo "*                 /create_credentials.sh                             *"
-        echo "* in a balena terminal for the service 'google_assistant'.           *"
-        echo "**********************************************************************"
-        bash
-    else
-        echo "In order to create the credentials, you must set the Device Service Variable 'GOOGLE_ASSISTANT_CLIENT_SECRET' to the client secret !"
-        exit 1
-    fi
-fi
+mkdir -p $CREDENTIALS_FILE_PATH
+echo $GOOGLE_ASSISTANT_CREDENTIALS > $CREDENTIALS_FILE
+
+echo "Starting hotword detection ..."
+python hotword.py --project-id $GOOGLE_ASSISTANT_PROJECT_ID --device-model-id $GOOGLE_ASSISTANT_DEVICE_MODEL_ID
