@@ -4,8 +4,8 @@ volumes:
   pulse:
     
 services:
-  google_assistant:
-    build: ./google_assistant
+  google-assistant:
+    build: ./google-assistant
     restart: always
     network_mode: host
     privileged: true
@@ -23,14 +23,14 @@ services:
     volumes:
       - 'pulse:/pulseaudio'
 
-  # pulsetest:
-  #   build: ./pulsetest
-  #   volumes:
-  #     - 'pulse:/pulseaudio'
-
   meet:
     build: ./meet
     ports:
       - 80:80
     volumes:
       - 'pulse:/pulseaudio'
+
+  # pulsetest:
+  #   build: ./pulsetest
+  #   volumes:
+  #     - 'pulse:/pulseaudio'

@@ -42,9 +42,11 @@ wss.on('connection', function connection (ws) {
   let play
   ws.on('message', function incoming (message) {
     const msg = JSON.parse(message)
+    console.log(msg)
     switch (msg.event) {
       case 'connected':
         console.log(`A new call has connected.`)
+        if (play) play.end()
         play = pulse.createPlaybackStream({
           channels: 1,
           rate: 8000,
@@ -60,7 +62,7 @@ wss.on('connection', function connection (ws) {
       case 'stop':
         console.log(`Call Has Ended`)
         play.end()
-        pulse.end()
+        // pulse.end()
         break
     }
   })
@@ -72,14 +74,15 @@ wss.on('connection', function connection (ws) {
 })
 
 //Handle HTTP Requests
+const pause = 60 * 60 * 4
+let sid = null
 app.get('/', (req, res) => {
-  const pause = 60 * 60 * 4
   res.set('Content-Type', 'text/xml')
   res.send(`
   <Response>
     <Say>I will stream the next ${pause} seconds of audio through your websocket</Say>
     <Start>
-      <Stream url='wss://${PUBLIC_URL}' />
+      <Stream name="my_first_stream" url='wss://${PUBLIC_URL}' />
     </Start>
     <Pause length='${pause}' />
     <Say>I will close the stream now</Say>
@@ -98,8 +101,30 @@ app.post('/join', async (req, res) => {
       from: twilioConfig.phoneNumber
     })
     res.json({ status: 'ok', call })
+    sid = call.sid
   } catch (error) {
-    res.status(500).json({ status: 'error', message: e.message })
+    res.status(500).json({ status: 'error', message: error.message })
+  }
+})
+
+app.post('/reply', async (req, res) => {
+  try {
+    const client = twilio(twilioConfig.accountSid, twilioConfig.authToken)
+    const call = await client.calls(sid)
+    await call.update({
+      twiml: `<Response>
+      <Stop>
+        <Stream name="my_first_stream" />
+      </Stop>
+      <Say>Ahoy there</Say>
+      <Start>
+      <Stream name="my_first_stream" url='wss://${PUBLIC_URL}' />
+    </Start>
+    <Pause length='${pause}' />
+    <Say>I will close the stream now</Say>
+    </Response>`})
+  } catch (error) {
+    console.log(error)
   }
 })
 
