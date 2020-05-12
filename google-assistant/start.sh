@@ -17,7 +17,7 @@ fi
 
 if [[ -z $GOOGLE_ASSISTANT_CREDENTIALS ]]; then
     echo "ERROR: device service variable 'GOOGLE_ASSISTANT_CREDENTIALS' is not set.  This variable must be set for the service 'google_assistant'"
-    echo "Run create_credentials.sh script on your development machine to generate it."
+    echo "Run create-credentials.sh script on your development machine to generate it."
     exit 1
 fi
 
