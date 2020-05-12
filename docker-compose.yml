@@ -4,6 +4,7 @@ volumes:
   pulse:
     
 services:
+
   google-assistant:
     build: ./google-assistant
     restart: always
@@ -23,12 +24,22 @@ services:
     volumes:
       - 'pulse:/pulseaudio'
 
-  meet:
-    build: ./meet
+  meet-api:
+    build: ./meet-api
     ports:
-      - 80:80
+      - 4000:80
+  
+  meet-stream:
+    build: ./meet-stream
+    ports:
+      - 3000:80
     volumes:
       - 'pulse:/pulseaudio'
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
 
   # pulsetest:
   #   build: ./pulsetest

@@ -1,0 +1,15 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-node:10
+# node 10 required --> see https://github.com/stanford-oval/node-pulseaudio/pull/5
+
+ENV PULSE_SINK=virtual-sink
+ENV PULSE_SERVER=unix:/pulseaudio/pulseaudio.socket
+
+WORKDIR /usr/src
+COPY . .
+
+RUN install_packages python pkg-config make g++ libpulse-dev pulseaudio
+RUN npm install
+
+CMD [ "node", "server.js" ]
+# CMD [ "/usr/bin/balena-idle" ]
+# CMD while : ; do echo "${MESSAGE=Idling...}"; sleep ${INTERVAL=600}; done
