@@ -4,17 +4,6 @@ volumes:
   pulse:
     
 services:
-
-  google-assistant:
-    build: ./google-assistant
-    restart: always
-    network_mode: host
-    privileged: true
-    labels:
-      io.balena.features.supervisor-api: 1
-    volumes:
-      - 'pulse:/pulseaudio'
-
   pulseaudio:
     build: ./pulseaudio
     privileged: true
@@ -24,8 +13,19 @@ services:
     volumes:
       - 'pulse:/pulseaudio'
 
+  google-assistant:
+    build: ./google-assistant
+    restart: on-failure
+    network_mode: host
+    privileged: true
+    labels:
+      io.balena.features.supervisor-api: 1
+    volumes:
+      - 'pulse:/pulseaudio'
+
   meet-api:
     build: ./meet-api
+    restart: on-failure
     ports:
       - 4000:80
   
@@ -40,8 +40,3 @@ services:
     build: ./nginx
     ports:
       - 80:80
-
-  # pulsetest:
-  #   build: ./pulsetest
-  #   volumes:
-  #     - 'pulse:/pulseaudio'

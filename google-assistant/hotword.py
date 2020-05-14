@@ -4,6 +4,7 @@ import json
 import os.path
 import pathlib2 as pathlib
 import datetime
+import requests
 
 import google.oauth2.credentials
 
@@ -41,12 +42,24 @@ def process_event(event, assistant):
             now = datetime.datetime.now()
             print(now, 'New meet started!')
             assistant.stop_conversation()
+            requests.post('http://localhost:4000/ack')
         if "add highlight" in command:
             highlight = command.replace('add highlights', '')
             highlight = command.replace('add highlight', '')
             now = datetime.datetime.now()
             print(now, 'Highlight:', highlight)
             assistant.stop_conversation()
+            requests.post('http://localhost:4000/ack')
+        if "new section" in command:
+            now = datetime.datetime.now()
+            print(now, 'new section')
+            assistant.stop_conversation()
+            requests.post('http://localhost:4000/ack')
+        if "new item" in command:
+            now = datetime.datetime.now()
+            print(now, 'new item')            
+            assistant.stop_conversation()
+            requests.post('http://localhost:4000/ack')
 
     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
             event.args and not event.args['with_follow_on_turn']):

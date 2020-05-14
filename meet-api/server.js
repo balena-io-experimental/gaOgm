@@ -1,55 +1,71 @@
-const express = require('express')
+const path = require('path')
 const twilio = require('twilio')
+const express = require('express')
 
-const PUBLIC_URL = `${process.env.BALENA_DEVICE_UUID}.balena-devices.com`
-const MEET_DURATION = 60 * 60 * 4 // In seconds
-const PORT = 80
+const SERVER_PORT = 80
+const DEFAULT_MEET_DURATION = 60 * 60 * 1.5 // In seconds
+const BALENA_DEVICE_UUID = process.env.BALENA_DEVICE_UUID
+const PUBLIC_URL = `${BALENA_DEVICE_UUID}.balena-devices.com`
+
+// Init twilio client
+const VoiceResponse = twilio.twiml.VoiceResponse
+const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_ACCOUNT_TOKEN)
+
+// Limit server to only process 1 call. This is not a limitation of the meet-api but:
+// 1. Twilio phone number can only be connected to 1 call
+// 2. google-assistant can only process 1 call at a time
+let currentCallSid = null
 
 console.log(`Starting meet server...`)
 
 const app = express()
 app.use(express.json())
+app.use('/sounds', express.static(path.join(__dirname, 'sounds')))
 
 app.get('/', (req, res) => {
   res.set('Content-Type', 'text/xml')
   res.send(twimlCall())
 })
 
+// join: call this endpoint to have the bot join an ongoing google meet
+// The bot will exit any other meeting it's currently on
 app.post('/join', async (req, res) => {
   const {
     meetPhone,
-    meetPin,
-    twilioAccountSid,
-    twilioAuthToken,
-    twilioPhoneNumber
+    meetPin
   } = req.body
 
+  if (!meetPhone || !meetPin) {
+    res.status(500).json({ status: 'error', message: 'Provide meetPhone and meetPin.' })
+  }
+
   try {
-    const client = twilio(twilioAccountSid, twilioAuthToken)
-    const call = await client.calls.create({
+    if (currentCallSid) {
+      console.log(`Terminating previous call with sid: ${currentCallSid}`)
+      await twilioClient.calls(currentCallSid).update({ status: 'completed' })
+    }
+
+    const call = await twilioClient.calls.create({
       method: 'GET',
       sendDigits: meetPin,
       url: `http://${PUBLIC_URL}/meet-api/`,
       to: meetPhone,
-      from: twilioPhoneNumber
+      from: process.env.TWILIO_PHONE_NUMBER
     })
+    currentCallSid = call.sid
+    console.log(`New call started with sid: ${currentCallSid}`)
     res.json({ status: 'ok', call })
   } catch (error) {
     res.status(500).json({ status: 'error', message: error.message })
   }
 })
 
-app.post('/reply', async (req, res) => {
-  const {
-    twilioAccountSid,
-    twilioAuthToken,
-    twilioCallSid
-  } = req.body
-
+// ack: call this endpoint to send an ack sound to the meet if a command was successfully executed
+// google-assistant makes use of this endpoint
+app.post('/ack', async (req, res) => {
   try {
-    const client = twilio(twilioAccountSid, twilioAuthToken)
-    const call = client.calls(twilioCallSid)
-    await call.update({ twiml: twimlReply('this is a reply') })
+    const call = twilioClient.calls(currentCallSid)
+    await call.update({ twiml: twimlReply() })
     res.json({ status: 'ok', call })
   } catch (error) {
     console.log(error)
@@ -57,33 +73,51 @@ app.post('/reply', async (req, res) => {
   }
 })
 
-app.listen(PORT, () => console.log(`Server listening at port ${PORT}`))
+app.listen(SERVER_PORT, () => console.log(`Server listening at port ${SERVER_PORT}. Public URL: ${PUBLIC_URL}`))
 
 function twimlCall () {
-  return `
-  <Response>
-    <Say>Google assistant joined the call</Say>
-    <Start>
-      <Stream name="google-assistant" url='wss://${PUBLIC_URL}/meet-stream' />
-    </Start>
-    <Pause length='${MEET_DURATION}' />
-    <Say>Google assistant left the call</Say>
-  </Response>
-  `
+  const response = new VoiceResponse()
+  response.say('Google assistant joined the call')
+  const start = response.start()
+  start.stream({ name: BALENA_DEVICE_UUID, url: `wss://${PUBLIC_URL}/meet-stream` })
+  response.pause({ length: DEFAULT_MEET_DURATION })
+  response.say('Google assistant left the call')
+  return response.toString()
+
+  // return `
+  // <Response>
+  //   <Say>Google assistant joined the call.</Say>
+  //   <Start>
+  //     <Stream name="google-assistant" url='wss://${PUBLIC_URL}/meet-stream' />
+  //   </Start>
+  //   <Pause length='${MEET_DURATION}' />
+  //   <Say>Google assistant left the call</Say>
+  // </Response>
+  // `
 }
 
-function twimlReply (message) {
-  return `
-  <Response>
-    <Stop>
-      <Stream name="google-assistant" />
-    </Stop>
-    <Say>'${message}'</Say>
-    <Start>
-      <Stream name="google-assistant" url='wss://${PUBLIC_URL}/meet-stream' />
-    </Start>
-    <Pause length='${MEET_DURATION}' />
-    <Say>Google assistant left the call</Say>
-  </Response>
-  `
+function twimlReply () {
+  const response = new VoiceResponse()
+  const stop = response.stop()
+  stop.stream({ name: BALENA_DEVICE_UUID })
+  response.play(`https://${PUBLIC_URL}/meet-api/sounds/coin.mp3`)
+  const start = response.start()
+  start.stream({ name: BALENA_DEVICE_UUID, url: `wss://${PUBLIC_URL}/meet-stream` })
+  response.pause({ length: DEFAULT_MEET_DURATION })
+  response.say('Google assistant left the call')
+  return response.toString()
+
+  // return `
+  // <Response>
+  //   <Stop>
+  //     <Stream name="google-assistant" />
+  //   </Stop>
+  //   <Play>https://${PUBLIC_URL}/meet-api/sounds/coin.mp3</Play>
+  //   <Start>
+  //     <Stream name="google-assistant" url='wss://${PUBLIC_URL}/meet-stream' />
+  //   </Start>
+  //   <Pause length='${MEET_DURATION}' />
+  //   <Say>Google assistant left the call</Say>
+  // </Response>
+  // `
 }

@@ -19,6 +19,4 @@ COPY . .
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install --upgrade -r requirements.txt
 
-# Start app
-# CMD ["bash", "./start.sh"]
-CMD while : ; do echo "${MESSAGE=Idling...}"; sleep ${INTERVAL=600}; done
+CMD ["/bin/bash", "./start.sh"]
