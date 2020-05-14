@@ -1,18 +1,42 @@
 version: '2'
+
 volumes:
-  google_assistant_credentials_data:
+  pulse:
+    
 services:
-  google_assistant:
-    build: ./google_assistant
-    restart: always
-    network_mode: host
+  pulseaudio:
+    build: ./pulseaudio
     privileged: true
-    volumes:
-      - 'google_assistant_credentials_data:/root/.config/google-oauthlib-tool'
     labels:
-      io.balena.features.kernel-modules: '1'
-  pi-join-meet:
-    build: ./pi-join-meet
-    restart: always
+      io.balena.features.dbus: 1
+      io.balena.features.kernel-modules: 1
+    volumes:
+      - 'pulse:/pulseaudio'
+
+  google-assistant:
+    build: ./google-assistant
+    restart: on-failure
     network_mode: host
     privileged: true
+    labels:
+      io.balena.features.supervisor-api: 1
+    volumes:
+      - 'pulse:/pulseaudio'
+
+  meet-api:
+    build: ./meet-api
+    restart: on-failure
+    ports:
+      - 4000:80
+  
+  meet-stream:
+    build: ./meet-stream
+    ports:
+      - 3000:80
+    volumes:
+      - 'pulse:/pulseaudio'
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80

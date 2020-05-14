@@ -1,0 +1,22 @@
+FROM balenalib/raspberrypi3-debian-python:3.5.7-stretch
+
+ENV PULSE_SOURCE=virtual-sink.monitor
+ENV PULSE_SINK=alsa_output.default
+ENV PULSE_SERVER=unix:/pulseaudio/pulseaudio.socket
+
+RUN install_packages \
+    alsa-utils \
+    gcc \
+    libffi-dev \
+    libssl-dev \
+    libmpg123-dev \
+    portaudio19-dev \
+    pulseaudio
+
+WORKDIR /usr/src/app
+COPY . .
+
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install --upgrade -r requirements.txt
+
+CMD ["/bin/bash", "./start.sh"]

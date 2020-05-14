@@ -1,0 +1,20 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%
+ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+
+WORKDIR /usr/src
+
+RUN install_packages pulseaudio alsa-utils
+
+RUN adduser pulse audio
+RUN adduser root audio
+RUN adduser root pulse
+RUN adduser root pulse-access
+
+COPY . .
+COPY client.conf /etc/pulse/client.conf
+RUN mkdir /pulseaudio
+RUN chown -R pulse /pulseaudio
+
+# Command to initialize pulseaudio daemon
+# aplay -L | grep -A 1 default
+CMD [ "pulseaudio", "--system", "--file", "/usr/src/conf.pa" ]

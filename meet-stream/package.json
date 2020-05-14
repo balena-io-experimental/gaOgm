@@ -1,0 +1,16 @@
+{
+  "name": "meet-stream",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Tomás Migone <tomas@balena.io>",
+  "license": "MIT",
+  "dependencies": {
+    "pulseaudio2": "^0.2.2",
+    "ws": "^7.3.0"
+  }
+}
