@@ -1,4 +1,4 @@
-# Google Assistant on Google Meet
+# Google Assistant on Google Meet
 
 Google Assistant bot that joins your Google Meet and listens for commands.
 
