@@ -37,8 +37,11 @@ Currently commands don't do much, you only get an ack reply in the form of a sho
 Command examples:
 
 `ok google, start new meeting`
+
 `ok google, add highlight <highlight>`
+
 `ok google, new section`
+
 `ok google, new item`
 
 
