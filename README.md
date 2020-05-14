@@ -45,7 +45,7 @@ Command examples:
 `ok google, new item`
 
 
-## Limitations
+## Known limitations
 
 **Cost $$$**
 
@@ -72,4 +72,11 @@ The project uses twilio media streams to stream the audio from the call back to 
 - It takes several seconds for the audio to reach the Raspberry Pi, usually ranging from 3 to 6 seconds. This is good enough for command procesing but not for having a conversation with the assistant (though uni-directional media streams are a bigger challenge in this regard).
 - When creating a media stream you need to specify the exact amount of time you want it to be open. This is not a big issue though, there is no documented maximum time streams can be functional and twilio calls will drop after 60 seconds of inactivity/silence. 
 
+**Google Assistant python library deprecation**
+
+Google Assistant python library has been [deprecated](https://developers.google.com/assistant/sdk/guides/library/python) as of June 28th, 2019. Unfortunately the replacement, Google Assistant Service, is [nowhere near feature parity](https://developers.google.com/assistant/sdk/overview#features). The most notable feature that is lacking is "hotword detection"/"hands free activation" via `Ok, Google`.
+
+This GitHub issues have a bit more context and some hotword detection alternatives that we could try should we need a replacement (python library still works fine though we shouldn't expect further updates to it):
+- https://github.com/googlesamples/assistant-sdk-python/issues/356
+- https://github.com/googlesamples/assistant-sdk-python/issues/357
 
