@@ -83,17 +83,6 @@ function twimlCall () {
   response.pause({ length: DEFAULT_MEET_DURATION })
   response.say('Google assistant left the call')
   return response.toString()
-
-  // return `
-  // <Response>
-  //   <Say>Google assistant joined the call.</Say>
-  //   <Start>
-  //     <Stream name="google-assistant" url='wss://${PUBLIC_URL}/meet-stream' />
-  //   </Start>
-  //   <Pause length='${MEET_DURATION}' />
-  //   <Say>Google assistant left the call</Say>
-  // </Response>
-  // `
 }
 
 function twimlReply () {
@@ -106,18 +95,4 @@ function twimlReply () {
   response.pause({ length: DEFAULT_MEET_DURATION })
   response.say('Google assistant left the call')
   return response.toString()
-
-  // return `
-  // <Response>
-  //   <Stop>
-  //     <Stream name="google-assistant" />
-  //   </Stop>
-  //   <Play>https://${PUBLIC_URL}/meet-api/sounds/coin.mp3</Play>
-  //   <Start>
-  //     <Stream name="google-assistant" url='wss://${PUBLIC_URL}/meet-stream' />
-  //   </Start>
-  //   <Pause length='${MEET_DURATION}' />
-  //   <Say>Google assistant left the call</Say>
-  // </Response>
-  // `
 }
