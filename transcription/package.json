@@ -1,0 +1,20 @@
+{
+  "name": "transcription",
+  "version": "1.0.0",
+  "description": "Transcripts for gaOgm",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc --project tsconfig.json"
+  },
+  "author": "Tomás Migone <tomas@balena.io>",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/speech": "^3.6.0",
+    "dbus-native": "^0.4.0",
+    "node-record-lpcm16": "^1.0.1",
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.0"
+  }
+}

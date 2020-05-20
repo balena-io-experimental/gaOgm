@@ -36,6 +36,11 @@ services:
     volumes:
       - 'pulse:/pulseaudio'
 
+  transcription:
+    build: ./transcription
+    volumes:
+      - 'pulse:/pulseaudio'
+
   nginx:
     build: ./nginx
     ports:
