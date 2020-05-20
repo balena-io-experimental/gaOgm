@@ -25,4 +25,4 @@ mkdir -p $CREDENTIALS_FILE_PATH
 echo $GOOGLE_ASSISTANT_CREDENTIALS > $CREDENTIALS_FILE
 
 echo "Starting hotword detection ..."
-python hotword.py --project-id $GOOGLE_ASSISTANT_PROJECT_ID --device-model-id $GOOGLE_ASSISTANT_DEVICE_MODEL_ID
+exec python hotword.py --project-id $GOOGLE_ASSISTANT_PROJECT_ID --device-model-id $GOOGLE_ASSISTANT_DEVICE_MODEL_ID

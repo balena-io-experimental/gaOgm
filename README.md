@@ -16,6 +16,7 @@ Google Assistant bot that joins your Google Meet and listens for commands.
 | GOOGLE_ASSISTANT_PROJECT_ID | See: https://developers.google.com/assistant/sdk/guides/library/python/embed/config-dev-project-and-account |
 | GOOGLE_ASSISTANT_DEVICE_MODEL_ID | See: https://developers.google.com/assistant/sdk/guides/library/python/embed/config-dev-project-and-account |
 | GOOGLE_ASSISTANT_CREDENTIALS | String with credentials in JSON format. Run `google-assistant/create-credentials.sh` in your development machine to get it |
+| GOOGLE_SPEECH_CREDENTIALS | String with credentials in JSON format. Create a service account, download private key in JSON format. See: https://cloud.google.com/speech-to-text/docs/quickstart-client-libraries |
 
 ## Usage
 

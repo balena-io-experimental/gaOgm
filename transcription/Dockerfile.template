@@ -1,0 +1,12 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-node:12-run
+
+ENV PULSE_SOURCE=virtual-sink.monitor
+ENV PULSE_SERVER=unix:/pulseaudio/pulseaudio.socket
+ENV GOOGLE_SPEECH_CREDENTIALS='123124124124'
+
+WORKDIR /usr/src
+COPY . .
+RUN install_packages sox libsox-fmt-all
+RUN npm install && npm run build
+
+CMD [ "/bin/bash", "/usr/src/start.sh" ]

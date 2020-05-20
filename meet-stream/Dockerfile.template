@@ -11,5 +11,3 @@ RUN install_packages python pkg-config make g++ libpulse-dev pulseaudio
 RUN npm install
 
 CMD [ "node", "server.js" ]
-# CMD [ "/usr/bin/balena-idle" ]
-# CMD while : ; do echo "${MESSAGE=Idling...}"; sleep ${INTERVAL=600}; done
