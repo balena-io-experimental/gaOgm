@@ -15,7 +15,8 @@ services:
 
   google-assistant:
     build: ./google-assistant
-    restart: on-failure
+    depends_on:
+      - pulseaudio
     network_mode: host
     privileged: true
     labels:
@@ -25,12 +26,13 @@ services:
 
   meet-api:
     build: ./meet-api
-    restart: on-failure
     ports:
       - 4000:80
   
   meet-stream:
     build: ./meet-stream
+    depends_on:
+      - pulseaudio
     ports:
       - 3000:80
     volumes:
@@ -38,6 +40,8 @@ services:
 
   transcription:
     build: ./transcription
+    depends_on:
+      - pulseaudio
     volumes:
       - 'pulse:/pulseaudio'
 

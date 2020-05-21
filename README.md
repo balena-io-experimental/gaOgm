@@ -81,3 +81,6 @@ This GitHub issues have a bit more context and some hotword detection alternativ
 - https://github.com/googlesamples/assistant-sdk-python/issues/356
 - https://github.com/googlesamples/assistant-sdk-python/issues/357
 
+## TODO
+[] Test pupeteer approach. Benefit: we can get bi-directional audio.
+[] Twilio: test SIP voice calls? asterisk?
