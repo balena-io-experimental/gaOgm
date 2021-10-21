@@ -1,4 +1,6 @@
-# Google Assistant on Google Meet
+# [DEPRECATED] Google Assistant on Google Meet
+
+__Note__ This project was deprecated by [meetbot](https://github.com/balena-io-playground/meetbot)
 
 Google Assistant bot that joins your Google Meet and listens for commands.
 
